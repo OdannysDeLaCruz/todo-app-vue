@@ -1,4 +1,4 @@
-# pruebas-vue-2
+# Todo App Vue
 
 ## Project setup
 ```
