@@ -1,6 +1,5 @@
 <template>
   <main class="app font-nunito">
-    <img alt="Vue logo" src="./assets/logo.png" class="rounded-full border m-auto w-20 h-20 mb-10">
     <Todo/>
   </main>
 </template>

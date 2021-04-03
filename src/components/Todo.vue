@@ -1,9 +1,8 @@
 <template>
     <div class="todo">
-        <h1 class="text-4xl font-bold mb-3">Todo App</h1>
-        <FormTodo v-on:addTodo="addedTodo"/>       
-        <div class="mt-5 border-b w-full"></div>
-        <ItemTodo v-for="todo of todos" v-bind:key="todo" :todo="todo" v-on:removeTodo="removeTodo(todo)"/>
+        <h1 class="text-4xl font-bold mb-3">Reminder</h1>
+        <FormTodo v-on:addTodo="addedTodo" v-bind:placeholder="'Agrega tu nueva tarea'" /> 
+        <ItemTodo v-on:addTodo="addedTodo" v-for="todo of todos" v-bind:key="todo" :todo="todo" v-on:removeTodo="removeTodo(todo)"/>
     </div>
 </template>
 
@@ -31,6 +30,8 @@ export default {
     methods: {
         addedTodo() {
             this.todos = JSON.parse(localStorage.getItem('todos'))
+            console.log('todos: ')
+            console.log(this.todos)
         }, 
         removeTodo(t) {
             let index = this.todos.indexOf(t)

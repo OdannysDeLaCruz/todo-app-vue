@@ -1,7 +1,7 @@
 <template>
     <div class="content-form-todo">
         <form class="todo-form">
-            <input v-model="newTodo" class="todo-form-input" type="text" placeholder="Add your new todo" autocomplete="off">
+            <input v-model="newTodo" class="todo-form-input" type="text" :placeholder="placeholder" autocomplete="off">
             <button v-on:click="addTodo" class="todo-form-add">+</button>
         </form>
         <Message :message="message" v-show="showMessage"/> 
@@ -11,55 +11,82 @@
 <script>
 import Message from '@/components/Message'
 
-	export default {
-		name: 'FormTodo',
-		data() {
-			return {
-				newTodo: '',
-                todos: [],
-                message: '',
-                showMessage: false
-			}
-		},
-        mounted() {
-            if(localStorage.getItem('todos') != null) {
-                this.todos = JSON.parse(localStorage.getItem('todos'))
-            }
-        },
-        components: {
-            Message
-        },
-		methods: {
-			addTodo(e) {
-				e.preventDefault()
-                this.todos = JSON.parse(localStorage.getItem('todos'))
+export default {
+	name: 'FormTodo',
+    props: {
+        placeholder: String,
+        parent: {
+            type: String,
+            default: ''
+        }
+    },
+	data() {
+		return {
+			newTodo: '',
+            todos: [],
+            subtodos: [],
+            message: '',
+            showMessage: false
+		}
+	},
+    mounted() {
+        if(localStorage.getItem('todos') != null) {
+            this.todos = JSON.parse(localStorage.getItem('todos'))
+        }
+    },
+    components: {
+        Message
+    },
+	methods: {
+		addTodo(e) {
+			e.preventDefault()
+            this.todos = this.getItemLocalStorage('todos')
+            if (this.parent != '') {
+                // let indexParent = this.todos.indexOf(this.parent)
+                // this.subtodos.push(this.newTodo)
+                // this.newTodo = ''
 
+                // console.log(this.todos, this.parent, indexParent, this.todos[indexParent])
+                // console.log(this.subtodos)
+            } else {
                 if(this.newTodo != '') {
                     if(this.existTodo(this.newTodo)){
-                        this.message = 'Ya existe una tarea con esa descripción'
-                        this.showMessage = true
-                        setTimeout(() => {
-                            this.showMessage = false
-                        }, 5000)
+                        this.displayMessage('Ya existe una tarea con esa descripción', true, 5000)
                     } 
                     else {
                         this.todos.push(this.newTodo)
-                        localStorage.setItem('todos', JSON.stringify(this.todos))
-                        this.newTodo = ''
+                        this.setItemLocalStorage('todos', this.todos)
+                        console.log(this.todos)
                         this.$emit('addTodo')
+                        this.newTodo = ''
                     }
-                }
-			},
-            existTodo(todo) {
-                let index = this.todos.indexOf(todo)
-                if(index > -1) {
-                    return true
-                }
-                return false
+                }                
             }
 
-		}
+		},
+        existTodo(todo) {
+            let index = this.todos.indexOf(todo)
+            if(index > -1) {
+                return true
+            }
+            return false
+        },
+        displayMessage(msm, show, timeout) {
+            this.message = msm
+            this.showMessage = show
+            setTimeout(() => {
+                this.showMessage = false
+            }, timeout)
+        },
+        setItemLocalStorage(item, data) {
+            localStorage.setItem(item, JSON.stringify(data))
+        },
+        getItemLocalStorage(item) {
+            return JSON.parse(localStorage.getItem(item))
+        }
+
 	}
+}
 </script>
 <style scoped>
     .content-form-todo {
@@ -75,8 +102,8 @@ import Message from '@/components/Message'
         box-sizing: content-box;
     }
     .todo-form-input {
-        font-size: 16px;
-        color: #999;
+        font-size: 15px;
+        color: #333;
         box-sizing: content-box;
         width: 100%;
         height: 100%;
@@ -88,7 +115,9 @@ import Message from '@/components/Message'
         outline-color: purple;
     }
     .todo-form-input::placeholder {
-        color: #ccc;
+        color: #ADADAD;
+        font-weight: 400px;
+        font-size: 14px;
     }
     .todo-form-add {
         box-sizing: content-box;
