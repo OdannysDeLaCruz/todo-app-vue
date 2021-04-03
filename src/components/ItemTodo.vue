@@ -1,22 +1,32 @@
 <template>
-    <div class="todo-item">
-        <p class="todo-item-desc">{{ todo }}</p>
-        <button v-on:click="removeTodo()" class="todo-item-delete">X</button>
+    <div class="flex flex-col w-full ">
+        <div class="todo-item">
+            <p class="todo-item-desc">{{ todo }}</p>
+            <button v-on:click="removeTodo()" class="todo-item-delete">X</button>
+        </div>
+        <div class="w-full pl-5">
+            <FormTodo class="mt-2 "/>
+            
+        </div>
     </div>
 </template>
 
 <script>
-    export default {
-        name: 'ItemTodo',
-        props: {
-            todo: String
-        },
-        methods: {
-            removeTodo() {
-                this.$emit('removeTodo')
-            }
+import FormTodo from '@/components/FormTodo.vue'
+export default {
+    name: 'ItemTodo',
+    props: {
+        todo: String
+    },
+    components: {
+        FormTodo
+    },
+    methods: {
+        removeTodo() {
+            this.$emit('removeTodo')
         }
     }
+}
 </script>
 <style scoped>
     .todo-item {
