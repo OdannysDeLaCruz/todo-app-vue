@@ -1,7 +1,9 @@
 <template>
     <div class="flex flex-col w-full ">
         <div class="todo-item">
-            <p class="todo-item-desc">{{ todo }}</p>
+            <p v-on:click="openModal(todo)" class="todo-item-desc" :title="todo" data-bs-toggle="modal" data-bs-target="#itemTodoDetails">
+               {{ todo }}
+            </p>
             <div class="h-full flex">
                 <ButtonTodo :handleFunction="openFormSubTodo" :type="'simple'">
                     <IconSubItem :fill="'#999'"/>
@@ -46,6 +48,10 @@ export default {
         }, 
         addSubTodo() {
             this.$emit('addTodo')
+        },
+        openModal(data) {
+            console.log(data)
+            document.querySelector('.modal-body').innerText = data
         }
     }
 }
@@ -56,7 +62,7 @@ export default {
         border: 1px solid #f4f4f4;
         margin-top: 15px;
         width: 100%;
-        height: 40px;
+        /*height: 40px;*/
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -70,5 +76,6 @@ export default {
         white-space: nowrap;
         text-align: left;
         padding-left: 15px;
+        cursor: pointer;
     }
 </style>
