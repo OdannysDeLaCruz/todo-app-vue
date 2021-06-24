@@ -5,7 +5,6 @@
             <button v-on:click="addTodo" class="todo-form-add">+</button>
         </form>
         <Message :message="message" v-show="showMessage"/> 
-        
     </div>
 </template>
 <script>
@@ -43,8 +42,8 @@ export default {
             this.todos = this.getItemLocalStorage('todos')
             if (this.parent != '') {
                 // let indexParent = this.todos.indexOf(this.parent)
-                // this.subtodos.push(this.newTodo)
-                // this.newTodo = ''
+                this.subtodos.push(this.newTodo)
+                this.newTodo = ''
 
                 // console.log(this.todos, this.parent, indexParent, this.todos[indexParent])
                 // console.log(this.subtodos)
@@ -56,7 +55,7 @@ export default {
                     else {
                         this.todos.push(this.newTodo)
                         this.setItemLocalStorage('todos', this.todos)
-                        console.log(this.todos)
+                        // console.log(this.todos)
                         this.$emit('addTodo')
                         this.newTodo = ''
                     }
