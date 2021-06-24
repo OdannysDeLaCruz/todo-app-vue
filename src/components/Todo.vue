@@ -22,9 +22,13 @@ export default {
             showMessage: false
         }
     },
-    mounted() {
-        if(localStorage.getItem('todos') != null) {
-            this.todos = JSON.parse(localStorage.getItem('todos'))
+    created() {
+        if(localStorage.getItem('todos') == null || localStorage.getItem('todos') == '') {
+            localStorage.setItem('todos', [])
+        } else {
+            if(localStorage.getItem('todos') != '') {
+                this.todos = JSON.parse(localStorage.getItem('todos'))
+            }
         }
     },
     components: {

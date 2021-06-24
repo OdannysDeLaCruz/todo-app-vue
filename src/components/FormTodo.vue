@@ -28,9 +28,13 @@ export default {
             showMessage: false
 		}
 	},
-    mounted() {
-        if(localStorage.getItem('todos') != null) {
-            this.todos = JSON.parse(localStorage.getItem('todos'))
+    created() {
+        if(localStorage.getItem('todos') == null || localStorage.getItem('todos') == '') {
+            localStorage.setItem('todos', [])
+        } else {
+            if(localStorage.getItem('todos') != '') {
+                this.todos = JSON.parse(localStorage.getItem('todos'))
+            }
         }
     },
     components: {
@@ -55,13 +59,11 @@ export default {
                     else {
                         this.todos.push(this.newTodo)
                         this.setItemLocalStorage('todos', this.todos)
-                        // console.log(this.todos)
                         this.$emit('addTodo')
                         this.newTodo = ''
                     }
                 }                
             }
-
 		},
         existTodo(todo) {
             let index = this.todos.indexOf(todo)
@@ -81,7 +83,10 @@ export default {
             localStorage.setItem(item, JSON.stringify(data))
         },
         getItemLocalStorage(item) {
-            return JSON.parse(localStorage.getItem(item))
+            if(localStorage.getItem(item) != '') {
+                return JSON.parse(localStorage.getItem(item))
+            }
+            return []
         }
 
 	}
